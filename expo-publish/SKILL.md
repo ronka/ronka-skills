@@ -96,6 +96,32 @@ npm run build:simulator:android
 
 ---
 
+## Setup in a New Project
+
+Copy the bundled scripts into the project:
+```bash
+cp <skill-path>/scripts/bump-app-version.js scripts/
+cp <skill-path>/scripts/increment-update-version.js scripts/
+```
+
+Add these npm scripts to `package.json`:
+```json
+"update": "node scripts/increment-update-version.js && npx eas update",
+"build:production:ios": "node scripts/bump-app-version.js && npx eas build --platform ios --profile production",
+"build:production:android": "node scripts/bump-app-version.js && npx eas build --platform android --profile production",
+"submit:production:ios": "npx eas submit --platform ios --profile production",
+"submit:production:android": "npx eas submit --platform android --profile production",
+"build:simulator:ios": "npx eas build --platform ios --profile development-simulator",
+"build:simulator:android": "npx eas build -p android --profile development-simulator"
+```
+
+Ensure `constants/version.ts` exports `UPDATE_VERSION`:
+```ts
+export const UPDATE_VERSION = 1;
+```
+
+---
+
 ## Version Bump Logic
 
 | Script | What gets bumped | File |
